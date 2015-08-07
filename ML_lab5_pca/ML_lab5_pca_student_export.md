@@ -887,6 +887,12 @@
     Test.assertTrue(np.allclose(np.sum(eigenvaluesScaled[:5]), 0.206987501564),
                     'incorrect value for eigenvaluesScaled')
 
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+
+
 #### **Visualization 7: Top two components as images**
 #### Now, we'll view the scores for the top two component as images.  Note that we reshape the vectors by the dimensions of the original image, 230 x 202.
 #### These graphs map the values for the single component to a grayscale image.  This provides us with a visual representation which we can use to see the overall structure of the zebrafish brain and to identify where high and low values occur.  However, using this representation, there is a substantial amount of useful information that is difficult to interpret.  In the next visualization, we'll see how we can improve interpretability by combining the two principal components into a single image using a color mapping.
@@ -906,6 +912,10 @@
     pass
 
 
+![png](output_65_0.png)
+
+
+
     imageTwoScaled = scoresScaled[:,1].reshape(230, 202).T
     
     # generate layout and plot data
@@ -915,6 +925,10 @@
     image = plt.imshow(imageTwoScaled,interpolation='nearest', aspect='auto', cmap=cm.gray)
     display(fig) 
     pass
+
+
+![png](output_66_0.png)
+
 
 #### **Visualization 8: Top two components as one image**
 #### When we perform PCA and color neurons based on their location in the low-dimensional space, we can interpret areas with similar colors as exhibiting similar responses (at least in terms of the simple representation we recover with PCA). Below, the first graph shows how low-dimensional representations, which correspond to the first two principal components, are mapped to colors. The second graph shows the result of this color mapping using the zebrafish neural data.
@@ -972,6 +986,10 @@
     pass
 
 
+![png](output_70_0.png)
+
+
+
     # Use the same transformation on the image data
     # Try changing the first parameter to lower values
     brainmap = polarTransform(2.0, [imageOneScaled, imageTwoScaled])
@@ -982,6 +1000,10 @@
     image = plt.imshow(brainmap,interpolation='nearest', aspect='auto')
     display(fig) 
     pass
+
+
+![png](output_71_0.png)
+
 
 ### **Part 4: Feature-based aggregation and PCA**
 
@@ -1030,6 +1052,13 @@
     print '\nsumByThree.dot(vector):\t{0}'.format(sumByThree.dot(vector))
     print 'sumByTwo.dot(vector): \t{0}'.format(sumByTwo.dot(vector))
 
+    sumEveryOther.dot(vector):	[ 6.  9.]
+    sumEveryThird.dot(vector):	[ 3.  5.  7.]
+    
+    sumByThree.dot(vector):	[  3.  12.]
+    sumByTwo.dot(vector): 	[ 1.  5.  9.]
+
+
 
     # TEST Aggregation using arrays (4a)
     Test.assertEquals(sumEveryOther.shape, (2, 6), 'incorrect shape for sumEveryOther')
@@ -1041,6 +1070,16 @@
     Test.assertEquals(sumByTwo.shape, (3, 6), 'incorrect shape for sumByTwo')
     Test.assertTrue(np.allclose(sumByThree.dot(vector),  [3, 12]), 'incorrect value for sumByThree')
     Test.assertTrue(np.allclose(sumByTwo.dot(vector), [1, 5, 9]), 'incorrect value for sumByTwo')
+
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+
 
 #### **(4b) Recreate with `np.tile` and `np.eye`**
 #### [np.tile](http://docs.scipy.org/doc/numpy/reference/generated/numpy.tile.html) is useful for repeating arrays in one or more dimensions.  For example, `np.tile(np.array([[1, 2], [3, 4]]), 2)` produces `np.array([[1, 2, 1, 2], [3, 4, 3, 4]]))`.
@@ -1054,6 +1093,16 @@
     print 'sumEveryOther: \n{0}'.format(sumEveryOther)
     print '\nsumEveryThird: \n{0}'.format(sumEveryThird)
 
+    sumEveryOther: 
+    [[ 1.  0.  1.  0.  1.  0.]
+     [ 0.  1.  0.  1.  0.  1.]]
+    
+    sumEveryThird: 
+    [[ 1.  0.  0.  1.  0.  0.]
+     [ 0.  1.  0.  0.  1.  0.]
+     [ 0.  0.  1.  0.  0.  1.]]
+
+
 
     # TODO: Replace <FILL IN> with appropriate code
     # Use np.tile and np.eye to recreate the arrays
@@ -1065,6 +1114,16 @@
     print '\n', sumEveryThirdTile
     print 'sumEveryThirdTile.dot(vector): {0}'.format(sumEveryThirdTile.dot(vector))
 
+    [[ 1.  0.  1.  0.  1.  0.]
+     [ 0.  1.  0.  1.  0.  1.]]
+    sumEveryOtherTile.dot(vector): [ 6.  9.]
+    
+    [[ 1.  0.  0.  1.  0.  0.]
+     [ 0.  1.  0.  0.  1.  0.]
+     [ 0.  0.  1.  0.  0.  1.]]
+    sumEveryThirdTile.dot(vector): [ 3.  5.  7.]
+
+
 
     # TEST Recreate with `np.tile` and `np.eye` (4b)
     Test.assertEquals(sumEveryOtherTile.shape, (2, 6), 'incorrect shape for sumEveryOtherTile')
@@ -1073,6 +1132,12 @@
                     'incorrect value for sumEveryOtherTile')
     Test.assertTrue(np.allclose(sumEveryThirdTile.dot(vector), [3, 5, 7]),
                     'incorrect value for sumEveryThirdTile')
+
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+
 
 #### **(4c) Recreate with `np.kron` **
 #### The Kronecker product is the generalization of outer products involving matrices, and we've included some examples below to illustrate the idea.  Please refer to the [Wikipedia page](https://en.wikipedia.org/wiki/Kronecker_product) for a detailed definition.  We can use [np.kron](http://docs.scipy.org/doc/numpy/reference/generated/numpy.kron.html) to compute Kronecker products and recreate the `sumBy` arrays.  Note that $ \otimes $ indicates a Kronecker product.
@@ -1086,6 +1151,16 @@
     print 'sumByThree: \n{0}'.format(sumByThree)
     print '\nsumByTwo: \n{0}'.format(sumByTwo)
 
+    sumByThree: 
+    [[ 1.  1.  1.  0.  0.  0.]
+     [ 0.  0.  0.  1.  1.  1.]]
+    
+    sumByTwo: 
+    [[ 1.  1.  0.  0.  0.  0.]
+     [ 0.  0.  1.  1.  0.  0.]
+     [ 0.  0.  0.  0.  1.  1.]]
+
+
 
     # TODO: Replace <FILL IN> with appropriate code
     # Use np.kron, np.eye, and np.ones to recreate the arrays
@@ -1097,6 +1172,16 @@
     print '\n', sumByTwoKron
     print 'sumByTwoKron.dot(vector): {0}'.format(sumByTwoKron.dot(vector))
 
+    [[ 1.  1.  1.  0.  0.  0.]
+     [ 0.  0.  0.  1.  1.  1.]]
+    sumByThreeKron.dot(vector): [  3.  12.]
+    
+    [[ 1.  1.  0.  0.  0.  0.]
+     [ 0.  0.  1.  1.  0.  0.]
+     [ 0.  0.  0.  0.  1.  1.]]
+    sumByTwoKron.dot(vector): [ 1.  5.  9.]
+
+
 
     # TEST Recreate with `np.kron` (4c)
     Test.assertEquals(sumByThreeKron.shape, (2, 6), 'incorrect shape for sumByThreeKron')
@@ -1105,6 +1190,12 @@
                     'incorrect value for sumByThreeKron')
     Test.assertTrue(np.allclose(sumByTwoKron.dot(vector), [1, 5, 9]),
                     'incorrect value for sumByTwoKron')
+
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+
 
 #### **(4d) Aggregate by time** As we discussed in Part (4a), we would like to incorporate knowledge of our experimental setup into our analysis. To do this, we'll first study the temporal aspects of neural response, by aggregating our features by time. In other words, we want to see how different pixels (and the underlying neurons captured in these pixels) react in each of the 20 seconds after a new visual pattern is displayed, regardless of what the pattern is.  Hence, instead of working with the 240 features individually, we'll aggregate the original features into 20 new features, where the first new feature captures the pixel response one second after a visual pattern appears, the second new feature is the response after two seconds, and so on.
  
@@ -1123,6 +1214,13 @@
     print timeData.count()
     print timeData.first()
 
+    46460
+    ((0, 0), array([ 0.00802155,  0.00607693, -0.0075354 ,  0.00121539,  0.02163388,
+            0.00121539, -0.03087082,  0.00510462,  0.01191079,  0.02455081,
+           -0.0182308 ,  0.00802155, -0.00948002, -0.00948002,  0.02163388,
+           -0.02212004,  0.00704924,  0.00121539, -0.01142464, -0.00850771]))
+
+
 
     # TEST Aggregate by time (4d)
     Test.assertEquals(T.shape, (20, 240), 'incorrect shape for T')
@@ -1136,6 +1234,14 @@
     Test.assertTrue(np.allclose(timeDataFifth[-2:],[-0.00636676, -0.0179427]),
                     'incorrect values in timeData')
 
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+
+
 #### **(4e) Obtain a compact representation**
 #### We now have a time-aggregated dataset with $\scriptsize n = 46460$ pixels and $\scriptsize d = 20$ aggregated time features, and we want to use PCA to find a more compact representation.  Use the `pca` function from Part (2a) to perform PCA on the this data with $\scriptsize k = 3$, resulting in a new low-dimensional 46,460 by 3 dataset. As before, you'll need to extract the values from `timeData` since it is an RDD of key-value pairs.
 
@@ -1148,6 +1254,22 @@
            .format('\n'.join(map(str, timeScores.take(3)))))
     print '\neigenvaluesTime: (first five) \n{0}'.format(eigenvaluesTime[:5])
 
+    componentsTime: (first five) 
+    [[ 0.27392702 -0.16152431  0.01388556]
+     [ 0.09941893 -0.31968127 -0.34738824]
+     [-0.03376505 -0.32933108 -0.35606954]
+     [-0.12092744 -0.2845482  -0.27232364]
+     [-0.18219248 -0.22998061 -0.12248985]]
+    
+    timeScores (first three): 
+    [-0.00720617 -0.00292979 -0.00223645]
+    [ 0.02353076 -0.00197457  0.00362094]
+    [ 0.01310623  0.00123069 -0.00582974]
+    
+    eigenvaluesTime: (first five) 
+    [ 0.77528991  0.05038881  0.01173423  0.0059711   0.00138073]
+
+
 
     # TEST Obtain a compact representation (4e)
     Test.assertEquals(componentsTime.shape, (20, 3), 'incorrect shape for componentsTime')
@@ -1157,6 +1279,12 @@
                     'incorrect value for timeScores')
     Test.assertTrue(np.allclose(np.sum(eigenvaluesTime[:5]), 0.844764792),
                     'incorrect value for eigenvaluesTime')
+
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+
 
 #### ** Visualization 9: Top two components by time **
 #### Let's view the scores from the first two PCs as a composite image. When we preprocess by aggregating by time and then perform PCA, we are only looking at variability related to temporal dynamics. As a result, if neurons appear similar -- have similar colors -- in the resulting image, it means that their responses vary similarly over time, regardless of how they might be encoding direction. In the image below, we can define the midline as the horizontal line across the middle of the brain.  We see clear patterns of neural activity in different parts of the brain, and crucially note that the regions on either side of the midline are similar, which suggests that temporal dynamics do not differ across the two sides of the brain.
@@ -1173,6 +1301,10 @@
     image = plt.imshow(brainmap,interpolation='nearest', aspect='auto')
     display(fig) 
     pass
+
+
+![png](output_91_0.png)
+
 
 #### **(4f) Aggregate by direction**
 #### Next, let's perform a second type of feature aggregation so that we can study the direction-specific aspects of neural response, by aggregating our features by direction. In other words, we want to see how different pixels (and the underlying neurons captured in these pixels) react when the zebrafish is presented with 12 direction-specific patterns, ignoring the temporal aspect of the reaction.  Hence, instead of working with the 240 features individually, we'll aggregate the original features into 12 new features, where the first new feature captures the average pixel response to the first direction-specific visual pattern, the second new feature is the response to the second direction-specific visual pattern, and so on.
@@ -1191,6 +1323,12 @@
     print directionData.count()
     print directionData.first()
 
+    46460
+    ((0, 0), array([ 0.03346365,  0.03638058, -0.02195799, -0.02487492,  0.00721129,
+            0.00332206, -0.02098568,  0.00915591, -0.00542873, -0.01029027,
+            0.0081836 , -0.01417951]))
+
+
 
     # TEST Aggregate by direction (4f)
     Test.assertEquals(D.shape, (12, 240), 'incorrect shape for D')
@@ -1204,6 +1342,14 @@
     Test.assertTrue(np.allclose(directionDataFifth[:2], [ 0.01479147, -0.02090099]),
                     'incorrect values in directionData')
 
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+
+
 #### **(4g) Compact representation of direction data**
 #### We now have a direction-aggregated dataset with $\scriptsize n = 46460$ pixels and $\scriptsize d = 12$ aggregated direction features, and we want to use PCA to find a more compact representation.  Use the `pca` function from Part (2a) to perform PCA on the this data with $\scriptsize k = 3$, resulting in a new low-dimensional 46460 by 3 dataset. As before, you'll need to extract the values from `directionData` since it is an RDD of key-value pairs.
 
@@ -1216,6 +1362,22 @@
            .format('\n'.join(map(str, directionScores.take(3)))))
     print '\neigenvaluesDirection: (first five) \n{0}'.format(eigenvaluesDirection[:5])
 
+    componentsDirection: (first five) 
+    [[-0.25952179  0.16201941  0.24947433]
+     [-0.31369506 -0.09185175  0.29464223]
+     [-0.21716693 -0.35944645  0.35296454]
+     [-0.11517273 -0.37356905  0.07169062]
+     [ 0.02996577 -0.36272623 -0.14783897]]
+    
+    directionScores (first three): 
+    [-0.01622513  0.01322998  0.01322204]
+    [ 0.00999482  0.0652367  -0.04524758]
+    [ 0.004646    0.05751097  0.00756383]
+    
+    eigenvaluesDirection: (first five) 
+    [ 0.96411048  0.77613553  0.12762987  0.09775924  0.04333691]
+
+
 
     # TEST Compact representation of direction data (4g)
     Test.assertEquals(componentsDirection.shape, (12, 3), 'incorrect shape for componentsDirection')
@@ -1225,6 +1387,12 @@
                     'incorrect value for directionScores')
     Test.assertTrue(np.allclose(np.sum(eigenvaluesDirection[:5]), 2.0089720377),
                     'incorrect value for eigenvaluesDirection')
+
+    1 test passed.
+    1 test passed.
+    1 test passed.
+    1 test passed.
+
 
  
 #### **Visualization 10: Top two components by direction**
@@ -1243,6 +1411,10 @@
     image = plt.imshow(brainmap, interpolation='nearest', aspect='auto')
     display(fig) 
     pass
+
+
+![png](output_99_0.png)
+
 
 #### **(4h) Next steps**
 #### In the analyses above we have successfully identified regions of the brain that encode particular properties, e.g., a particular temporal pattern or selectivity to a stimulus. However, this is only the first step! These exploratory analyses are typically followed with more targeted investigation, both through analysis and experiment. For example, we might find all neurons that prefer one stimulus direction, and then do an experiment in which we stimulate or inactivate only those neurons and look at the effect on the animal's behavior. Alternatively, we might subdivide neurons into groups based on simple forms of stimulus selectivity like the ones analyzed here, and then estimate coupling across different neuronal populations, i.e. can we predict one population's response as a function of another. This can  be framed as a massive pair-wise regression problem, related to techniques you learned earlier in the course, and demanding large-scale implementations.
