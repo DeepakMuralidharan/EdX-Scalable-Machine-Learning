@@ -1134,12 +1134,20 @@
     print 'Average OHE Sparsity: {0:.7e}'.format(averageSparsityOHE)
     print 'Average Hash Sparsity: {0:.7e}'.format(averageSparsityHash)
 
+    Average OHE Sparsity: 1.6717677e-04
+    Average Hash Sparsity: 1.1805561e-03
+
+
 
     # TEST Sparsity (5c)
     Test.assertTrue(np.allclose(averageSparsityOHE, 1.6717677e-04),
                     'incorrect value for averageSparsityOHE')
     Test.assertTrue(np.allclose(averageSparsityHash, 1.1805561e-03),
                     'incorrect value for averageSparsityHash')
+
+    1 test passed.
+    1 test passed.
+
 
 #### ** (5d) Logistic model with hashed features **
 #### Now let's train a logistic regression model using the hashed features. Run a grid search to find suitable hyperparameters for the hashed features, evaluating via log loss on the validation data. Note: This may take a few minutes to run. Use `1` and `10` for `stepSizes` and `1e-6` and `1e-3` for `regParams`.
@@ -1172,9 +1180,21 @@
     print ('Hashed Features Validation Logloss:\n\tBaseline = {0:.3f}\n\tLogReg = {1:.3f}'
            .format(logLossValBase, bestLogLoss))
 
+    	stepSize = 1.0, regParam = 1e-06: logloss = 0.470
+    	stepSize = 1.0, regParam = 1e-03: logloss = 0.470
+    	stepSize = 10.0, regParam = 1e-06: logloss = 0.448
+    	stepSize = 10.0, regParam = 1e-03: logloss = 0.450
+    Hashed Features Validation Logloss:
+    	Baseline = 0.528
+    	LogReg = 0.448
+
+
 
     # TEST Logistic model with hashed features (5d)
     Test.assertTrue(np.allclose(bestLogLoss, 0.4481683608), 'incorrect value for bestLogLoss')
+
+    1 test passed.
+
 
 #### **Visualization 3: Hyperparameter heat map**
 #### We will now perform a visualization of an extensive hyperparameter search.  Specifically, we will create a heat map where the brighter colors correspond to lower values of `logLoss`.
@@ -1208,6 +1228,10 @@
     display(fig) 
     pass
 
+
+![png](output_93_0.png)
+
+
 #### ** (5e) Evaluate on the test set **
 #### Finally, evaluate the best model from Part (5d) on the test set.  Compare the resulting log loss with the baseline log loss on the test set, which can be computed in the same way that the validation log loss was computed in Part (4f).
 
@@ -1222,8 +1246,17 @@
     print ('Hashed Features Test Log Loss:\n\tBaseline = {0:.3f}\n\tLogReg = {1:.3f}'
            .format(logLossTestBaseline, logLossTest))
 
+    Hashed Features Test Log Loss:
+    	Baseline = 0.537
+    	LogReg = 0.456
+
+
 
     # TEST Evaluate on the test set (5e)
     Test.assertTrue(np.allclose(logLossTestBaseline, 0.537438),
                     'incorrect value for logLossTestBaseline')
     Test.assertTrue(np.allclose(logLossTest, 0.455616931), 'incorrect value for logLossTest')
+
+    1 test passed.
+    1 test passed.
+
